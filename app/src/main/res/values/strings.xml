@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AD340</string>
+    <string name="hello">Hello AD340!</string>
 </resources>
