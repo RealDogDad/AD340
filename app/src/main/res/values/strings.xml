@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">AD340</string>
-    <string name="hello">Hello AD340!</string>
+    <string name="app_name">AD340 Weather Application</string>
+    <string name="hello">Welcome</string> //change to if->Locale->LocalLanguage
+    <string name="submitButton">Submit</string>
+    <string name="onClickText">Button Clicked</string>
 </resources>
