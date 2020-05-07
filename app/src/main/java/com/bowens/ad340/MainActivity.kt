@@ -6,8 +6,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
+
+    private val forecastRepository = ForecastRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +27,22 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter valid Zip Code", Toast.LENGTH_SHORT).show()
             }
             else {
-                Toast.makeText(this, zipCode, Toast.LENGTH_SHORT).show()
+                forecastRepository.loadForecast(zipCode)
             }
         }
+
+        val forecastList: RecyclerView = findViewById(R.id.forecastList)
+        forecastList.layoutManager = LinearLayoutManager(this)
+        val dailyForecastAdapter = DailyForecastAdapter() {forecastItem ->
+            val msg = getString(R.string.forecast_clicked_format, forecastItem.temp, forecastItem.description)
+        }
+        forecastList.adapter = dailyForecastAdapter
+
+
+        val weeklyForecastObserver = Observer<List<DailyForecast>>{forecastItems ->
+            //update the list adapter.
+            dailyForecastAdapter.submitList(forecastItems)
+        }
+        forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
     }
 }
