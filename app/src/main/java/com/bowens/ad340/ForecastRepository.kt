@@ -13,7 +13,7 @@ class ForecastRepository {
     fun loadForecast(zipcode: String) {
         val randomValues = List(10){ Random.nextFloat().rem(100) * 100}
         val forecastItems = randomValues.map { temp ->
-            DailyForecast(temp, "Partly Cloudy")
+            DailyForecast(temp, getTempDescription(temp))
         }
         _weeklyForecast.setValue(forecastItems)
     }
@@ -23,7 +23,7 @@ class ForecastRepository {
             in Float.MIN_VALUE.rangeTo(0f) -> "Anything below 0 doesn't make sense"
             in 0f.rangeTo(32f)-> "Brr it is cold"
             in 32f.rangeTo(55f)-> "Better wear a jacket!"
-            in 55f.rangeTo(65)-> "This is more like it!"
+            in 55f.rangeTo(65f)-> "This is more like it!"
             in 65f.rangeTo(80f)-> "That's a little warm"
             in 80f.rangeTo(90f)-> "Global Warming amirite?"
             in 90f.rangeTo(100f)-> "Where is the pool?!"
