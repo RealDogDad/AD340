@@ -24,8 +24,8 @@
 
     <TextView
         android:id="@+id/descriptionText"
-        android:layout_width="206dp"
-        android:layout_height="45dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintStart_toStartOf="@+id/tempText"
         app:layout_constraintTop_toBottomOf="@+id/tempText"

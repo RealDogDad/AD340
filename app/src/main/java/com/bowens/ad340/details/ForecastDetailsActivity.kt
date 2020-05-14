@@ -30,7 +30,7 @@ class ForecastDetailsActivity : AppCompatActivity() {
 
         val temp = intent.getFloatExtra("key_temp", 0f)
 
-        tempText.text = formatTempForDisplay(temp)
+        tempText.text = formatTempForDisplay(temp, tempDisplaySettingManager.getTempDisplaySetting())
         descriptionText.text = intent.getStringExtra("key_description")
     }
 

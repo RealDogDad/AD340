@@ -20,6 +20,7 @@ class DailyForecastViewHolder(view: View, private val tempDisplaySettingManager:
 }
 
 class DailyForecastAdapter (
+    private val tempDisplaySettingManager: TempDisplaySettingManager,
     private val clickHandler: (DailyForecast) -> Unit
 ) : ListAdapter<DailyForecast, DailyForecastViewHolder>(DIFF_CONFIG) {
 
@@ -41,7 +42,7 @@ class DailyForecastAdapter (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyForecastViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_daily_forecast, parent, false)
-        return  DailyForecastViewHolder(itemView)
+        return  DailyForecastViewHolder(itemView, tempDisplaySettingManager)
     }
 
     override fun onBindViewHolder(holder: DailyForecastViewHolder, position: Int) {
