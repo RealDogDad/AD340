@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AD340 Weather Application</string>
-    <string name="hello">Welcome</string> //change to if->Locale->LocalLanguage
+    <string name="hello">Welcome</string>
+    //change to if->Locale->LocalLanguage
     <string name="zipError">Please enter a valid ZIP Code.</string>
     <string name="submitButton">Submit</string>
     <string name="onClickText">Button Clicked</string>

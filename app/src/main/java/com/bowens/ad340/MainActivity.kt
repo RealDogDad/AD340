@@ -1,5 +1,6 @@
 package com.bowens.ad340
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -9,6 +10,7 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bowens.ad340.details.ForecastDetailsActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,8 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         val forecastList: RecyclerView = findViewById(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(this)
-        val dailyForecastAdapter = DailyForecastAdapter() {forecastItem ->
-            val msg = getString(R.string.forecast_clicked_format, forecastItem.temp, forecastItem.description)
+        val dailyForecastAdapter = DailyForecastAdapter() {
+            val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
         }
         forecastList.adapter = dailyForecastAdapter
 
