@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         forecastList.layoutManager = LinearLayoutManager(this)
         val dailyForecastAdapter = DailyForecastAdapter() {
             val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
+            startActivity(forecastDetailsIntent)
         }
         forecastList.adapter = dailyForecastAdapter
 
