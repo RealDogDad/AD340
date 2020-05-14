@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">AD340 Weather Application</string>
-    <string name="hello">Welcome</string> //change to if->Locale->LocalLanguage
+    <string name="hello">Welcome</string>
+    <string name="forecast_details">Forecast Details</string>
     <string name="zipError">Please enter a valid ZIP Code.</string>
     <string name="submitButton">Submit</string>
     <string name="onClickText">Button Clicked</string>
     <string name="forecast_clicked_format">Forecast: %1$.2f %2$s</string>
+    <string name="displayUnits">Display Units</string>
 </resources>
