@@ -35,9 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         val forecastList: RecyclerView = findViewById(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(this)
-        val dailyForecastAdapter = DailyForecastAdapter() {
-            val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
-            startActivity(forecastDetailsIntent)
+        val dailyForecastAdapter = DailyForecastAdapter() {forecast ->
+            showForecastDetails(forecast)
         }
         forecastList.adapter = dailyForecastAdapter
 
@@ -47,5 +46,14 @@ class MainActivity : AppCompatActivity() {
             dailyForecastAdapter.submitList(forecastItems)
         }
         forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
+    }
+
+    private fun showForecastDetails(forecast: DailyForecast){
+        val forecastDetailsIntent = Intent (this, ForecastDetailsActivity::class.java)
+        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
+        forecastDetailsIntent.putExtra("key_description", forecast.description)
+
+        startActivity(forecastDetailsIntent)
+
     }
 }
