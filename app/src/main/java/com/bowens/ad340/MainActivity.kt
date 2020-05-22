@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowens.ad340.details.ForecastDetailsActivity
+import com.bowens.ad340.location.LocationEntryFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,18 +27,18 @@ class MainActivity : AppCompatActivity() {
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-        var zipcodeEditText: EditText = findViewById(R.id.zip)
-        var submitButton: Button = findViewById(R.id.submit)
-
-        submitButton.setOnClickListener {
-            val zipCode: String = zipcodeEditText.text.toString()
-            if(zipCode.length != 5) {
-                Toast.makeText(this, "Please enter valid Zip Code", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                forecastRepository.loadForecast(zipCode)
-            }
-        }
+//        var zipcodeEditText: EditText = findViewById(R.id.zip)
+//        var submitButton: Button = findViewById(R.id.submit)
+//
+//        submitButton.setOnClickListener {
+//            val zipCode: String = zipcodeEditText.text.toString()
+//            if(zipCode.length != 5) {
+//                Toast.makeText(this, "Please enter valid Zip Code", Toast.LENGTH_SHORT).show()
+//            }
+//            else {
+//                forecastRepository.loadForecast(zipCode)
+//            }
+//        }
 
         val forecastList: RecyclerView = findViewById(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(this)
@@ -52,6 +53,12 @@ class MainActivity : AppCompatActivity() {
             dailyForecastAdapter.submitList(forecastItems)
         }
         forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
+
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, LocationEntryFragment())
+            .commit()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
