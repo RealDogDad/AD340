@@ -11,11 +11,14 @@ import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowens.ad340.details.ForecastDetailsActivity
 import com.bowens.ad340.forecast.CurrentForecastFragment
+import com.bowens.ad340.forecast.CurrentForecastFragmentDirections
 import com.bowens.ad340.location.LocationEntryFragment
+import com.bowens.ad340.location.LocationEntryFragmentDirections
 
 class MainActivity : AppCompatActivity(), AppNavigator {
 
@@ -49,14 +52,15 @@ class MainActivity : AppCompatActivity(), AppNavigator {
     }
 
     override fun navigateToCurrentForecast(zipCode: String) {
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipCode))
-//            .commit()
+        val action =
+            LocationEntryFragmentDirections.actionLocationEntryFragmentToCurrentForecastFragment()
+        findNavController(R.id.nav_host_fragment).navigate(action)
+
     }
 
     override fun navigateToLocationEntry() {
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragmentContainer, LocationEntryFragment())
-//            .commit()
+        val action =
+            CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
+        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 }
