@@ -20,7 +20,7 @@ class LocationEntryFragment : Fragment() {
 
     private lateinit var appNavigator: AppNavigator
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         appNavigator = context as AppNavigator
     }
@@ -30,8 +30,8 @@ class LocationEntryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_location_entry, container, false)
 
         //update UI, get view references
-        var zipcodeEditText: EditText = view.findViewById(R.id.zip)
-        var submitButton: Button = view.findViewById(R.id.submit)
+        val zipcodeEditText: EditText = view.findViewById(R.id.zip)
+        val submitButton: Button = view.findViewById(R.id.submit)
 
         submitButton.setOnClickListener {
             val zipCode: String = zipcodeEditText.text.toString()

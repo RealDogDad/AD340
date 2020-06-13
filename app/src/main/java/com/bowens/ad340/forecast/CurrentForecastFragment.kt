@@ -20,10 +20,9 @@ import kotlinx.android.synthetic.main.fragment_current_forecast.*
  * A simple [Fragment] subclass.
  */
 class CurrentForecastFragment : Fragment() {
-
     private lateinit var appNavigator: AppNavigator
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         appNavigator = context as AppNavigator
     }
