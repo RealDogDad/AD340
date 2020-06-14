@@ -15,7 +15,7 @@ class ForecastRepository {
         val forecastItems = randomValues.map { temp ->
             DailyForecast(temp, getTempDescription(temp))
         }
-        _weeklyForecast.setValue(forecastItems)
+        _weeklyForecast.value = forecastItems
     }
 
     private fun getTempDescription(temp: Float) : String{
