@@ -1,24 +1,23 @@
 package com.bowens.ad340.details
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bowens.ad340.R
 import com.bowens.ad340.TempDisplaySettingManager
 import com.bowens.ad340.formatTempForDisplay
 import com.bowens.ad340.showTempDisplaySettingDialog
 
-class ForecastDetailsActivity : AppCompatActivity() {
+class ForecastDetailsFragment : AppCompatActivity() {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forecast_details)
+        setContentView(R.layout.fragment_forecast_details)
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 

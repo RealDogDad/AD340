@@ -3,18 +3,16 @@ package com.bowens.ad340.forecast
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowens.ad340.*
-
-import com.bowens.ad340.details.ForecastDetailsActivity
+import com.bowens.ad340.details.ForecastDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_current_forecast.*
 
 /**
  * A simple [Fragment] subclass.
@@ -65,7 +63,7 @@ class CurrentForecastFragment : Fragment() {
     }
 
     private fun showForecastDetails(forecast: DailyForecast){
-        val forecastDetailsIntent = Intent (requireContext(), ForecastDetailsActivity::class.java)
+        val forecastDetailsIntent = Intent(requireContext(), ForecastDetailsFragment::class.java)
         forecastDetailsIntent.putExtra("key_temp", forecast.temp)
         forecastDetailsIntent.putExtra("key_description", forecast.description)
 

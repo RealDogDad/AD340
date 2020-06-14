@@ -1,23 +1,12 @@
 package com.bowens.ad340
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bowens.ad340.details.ForecastDetailsActivity
-import com.bowens.ad340.forecast.CurrentForecastFragment
 import com.bowens.ad340.forecast.CurrentForecastFragmentDirections
-import com.bowens.ad340.location.LocationEntryFragment
 import com.bowens.ad340.location.LocationEntryFragmentDirections
 
 class MainActivity : AppCompatActivity(), AppNavigator {
