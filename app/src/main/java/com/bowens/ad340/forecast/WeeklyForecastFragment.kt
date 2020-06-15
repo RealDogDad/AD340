@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowens.ad340.*
@@ -19,12 +20,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  * A simple [Fragment] subclass.
  */
 class WeeklyForecastFragment : Fragment() {
-    private lateinit var appNavigator: AppNavigator
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appNavigator = context as AppNavigator
-    }
 
     private val forecastRepository = ForecastRepository()
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -35,14 +30,14 @@ class WeeklyForecastFragment : Fragment() {
     ): View? {
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
-        val zipcode = requireArguments().getString(KEY_ZIPCODE) ?: ""
+        val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(fragment_weekly_forecast, container, false)
 
         val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)
         locationEntryButton.setOnClickListener {
-            appNavigator.navigateToLocationEntry()
+           showLocationEntry()
         }
 
         val forecastList: RecyclerView = view.findViewById(R.id.forecastList)
@@ -63,8 +58,14 @@ class WeeklyForecastFragment : Fragment() {
         return view
     }
 
+    private fun showLocationEntry(){
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToLocationEntryFragment()
+        findNavController().navigate(action)
+    }
+
     private fun showForecastDetails(forecast: DailyForecast) {
-        appNavigator.navigateToForecastDetails(forecast)
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(forecast.temp,forecast.description)
+        findNavController().navigate(action)
     }
 
     companion object {
