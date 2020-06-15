@@ -3,22 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/locationEntryFragment">
+    app:startDestination="@id/currentForecastFragment">
 
     <fragment
         android:id="@+id/locationEntryFragment"
         android:name="com.bowens.ad340.location.LocationEntryFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_location_entry" >
-        <action
-            android:id="@+id/action_locationEntryFragment_to_currentForecastFragment"
-            app:destination="@id/currentForecastFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_location_entry" />
+
     <fragment
         android:id="@+id/currentForecastFragment"
         android:name="com.bowens.ad340.forecast.CurrentForecastFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_current_forecast" >
+        tools:layout="@layout/fragment_current_forecast">
         <action
             android:id="@+id/action_currentForecastFragment_to_locationEntryFragment"
             app:destination="@id/locationEntryFragment" />
@@ -26,11 +23,12 @@
             android:id="@+id/action_currentForecastFragment_to_forecastDetailsFragment"
             app:destination="@id/forecastDetailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/forecastDetailsFragment"
         android:name="com.bowens.ad340.details.ForecastDetailsFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_forecast_details" >
+        tools:layout="@layout/fragment_forecast_details">
         <argument
             android:name="temp"
             app:argType="float" />
@@ -38,10 +36,11 @@
             android:name="description"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/weeklyForecastFragment"
         android:name="com.bowens.ad340.forecast.WeeklyForecastFragment"
-        android:label="WeeklyForecastFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_weekly_forecast">
         <action
             android:id="@+id/action_weeklyForecastFragment_to_forecastDetailsFragment"
@@ -50,4 +49,5 @@
             android:id="@+id/action_weeklyForecastFragment_to_locationEntryFragment"
             app:destination="@id/locationEntryFragment" />
     </fragment>
+
 </navigation>
