@@ -26,7 +26,7 @@ class ForecastRepository {
     fun loadCurrentForecast(zipcode: String) {
         val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", "apiKey")
         call.enqueue()
-        //https://www.youtube.com/watch?v=JGEsLpC6IU4&t=252s
+        //https://youtu.be/JGEsLpC6IU4?t=4391
     }
 
     private fun getTempDescription(temp: Float) : String{
