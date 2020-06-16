@@ -47,9 +47,9 @@ class CurrentForecastFragment : Fragment() {
         }
         forecastList.adapter = dailyForecastAdapter
 
-        val currentForecastObserver: Observer<DailyForecast> { forecastItem ->
-            //TODO Update list adapter
-            dailyForecastAdapter.submitList((listOf(forecastItem)))
+        val currentForecastObserver = Observer<DailyForecast> { forecastItems ->
+            //update the list adapter
+            dailyForecastAdapter.submitList(listOf(forecastItems))
         }
 
         forecastRepository.currentForecast.observe(viewLifecycleOwner, currentForecastObserver)
