@@ -16,9 +16,25 @@ class LocationRepository(context: Context) {
     private val _savedLocation: MutableLiveData<Location> = MutableLiveData()
     val savedLocation: LiveData<Location> = _savedLocation
 
+    init {
+        preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+            if(key != KEY_ZIPCODE) return@registerOnSharedPreferenceChangeListener
+            broadcastSavedZipcode()
+        }
+
+        broadcastSavedZipcode()
+    }
+
     fun saveLocation(location: Location) {
         when (location) {
             is Location.Zipcode -> preferences.edit().putString(KEY_ZIPCODE, location.Zipcode).apply()
+        }
+    }
+
+    private fun broadcastSavedZipcode() {
+        val zipcode = preferences.getString(KEY_ZIPCODE, "")
+        if(zipcode != null && zipcode.isNotBlank()) {
+            _savedLocation.value = Location.Zipcode(zipcode)
         }
     }
 }

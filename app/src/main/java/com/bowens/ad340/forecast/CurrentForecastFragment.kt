@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class CurrentForecastFragment : Fragment() {
 
     private val forecastRepository = ForecastRepository()
+    private lateinit var locationRepository: LocationRepository
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     override fun onCreateView(
@@ -41,21 +42,29 @@ class CurrentForecastFragment : Fragment() {
 
         val forecastList: RecyclerView = view.findViewById(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(requireContext())
-        val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) {forecast ->
-            showForecastDetails(forecast)
+        val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) {
+            showForecastDetails(it)
         }
         forecastList.adapter = dailyForecastAdapter
 
-
-        val weeklyForecastObserver = Observer<List<DailyForecast>>{ forecastItems ->
-            //update the list adapter.
-            dailyForecastAdapter.submitList(forecastItems)
+        val currentForecastObserver: Observer<DailyForecast> { forecastItem ->
+            //TODO Update list adapter
+            dailyForecastAdapter.submitList((listOf(forecastItem)))
         }
-        forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
 
-        forecastRepository.loadForecast(zipcode)
+        forecastRepository.currentForecast.observe(viewLifecycleOwner, currentForecastObserver)
+
+        locationRepository = LocationRepository(requireContext())
+        val savedLocationObserver = Observer<Location> {savedLocation ->
+            when (savedLocation) {
+                is Location.Zipcode -> forecastRepository.loadCurrentForecast(savedLocation.Zipcode)
+            }
+        }
+        locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
+
         return view
     }
+
 
     private fun showLocationEntry(){
         val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
