@@ -2,6 +2,7 @@ package com.bowens.ad340
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bowens.ad340.api.createOpenWeatherMapService
 import java.util.*
 import kotlin.random.Random
 
@@ -23,9 +24,9 @@ class ForecastRepository {
     }
 
     fun loadCurrentForecast(zipcode: String) {
-        val randomTemp = Random.nextFloat().rem(100) *100
-        val forecast = DailyForecast(Date(), randomTemp, getTempDescription(randomTemp))
-        _currentForecast.value = forecast
+        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", "apiKey")
+        call.enqueue()
+        //https://www.youtube.com/watch?v=JGEsLpC6IU4&t=252s
     }
 
     private fun getTempDescription(temp: Float) : String{
