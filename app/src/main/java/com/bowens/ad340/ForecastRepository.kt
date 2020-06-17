@@ -1,8 +1,13 @@
 package com.bowens.ad340
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bowens.ad340.api.CurrentWeather
 import com.bowens.ad340.api.createOpenWeatherMapService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 import kotlin.random.Random
 
@@ -25,7 +30,22 @@ class ForecastRepository {
 
     fun loadCurrentForecast(zipcode: String) {
         val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", "apiKey")
-        call.enqueue()
+        call.enqueue(object : Callback<CurrentWeather> {
+            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
+                Log.e(ForecastRepository :: class.java.simpleName, "error loading current weather", t)
+            }
+
+            override fun onResponse(
+                call: Call<CurrentWeather>,
+                response: Response<CurrentWeather>) {
+                val weatherResponse = response.body()
+                if (weatherResponse != null) {
+                    _currentForecast.value = weatherResponse
+                }
+
+            }
+
+        })
         //https://youtu.be/JGEsLpC6IU4?t=4391
     }
 
