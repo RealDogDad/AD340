@@ -1,7 +1,5 @@
 package com.bowens.ad340.forecast
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowens.ad340.*
 import com.bowens.ad340.R.layout.fragment_weekly_forecast
-import com.bowens.ad340.details.ForecastDetailsFragment
+import com.bowens.ad340.api.DailyForecast
+import com.bowens.ad340.api.WeeklyForecast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
@@ -49,9 +48,9 @@ class WeeklyForecastFragment : Fragment() {
         forecastList.adapter = dailyForecastAdapter
 
 
-        val weeklyForecastObserver = Observer<List<DailyForecast>> { forecastItems ->
+        val weeklyForecastObserver = Observer<WeeklyForecast> { WeeklyForecast ->
             //update the list adapter.
-            dailyForecastAdapter.submitList(forecastItems)
+            dailyForecastAdapter.submitList(WeeklyForecast.daily)
         }
         forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
 
@@ -71,7 +70,9 @@ class WeeklyForecastFragment : Fragment() {
     }
 
     private fun showForecastDetails(forecast: DailyForecast) {
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(forecast.temp,forecast.description)
+        val temp = forecast.temp.max
+        val description = forecast.weather[0].description
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp,description)
         findNavController().navigate(action)
     }
 
