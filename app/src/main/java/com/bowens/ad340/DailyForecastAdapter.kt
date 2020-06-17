@@ -3,19 +3,32 @@ package com.bowens.ad340
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import com.bowens.ad340.api.DailyForecast
+import java.text.SimpleDateFormat
+import java.util.*
+
+private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
 
 class DailyForecastViewHolder(view: View, private val tempDisplaySettingManager: TempDisplaySettingManager) : RecyclerView.ViewHolder(view){
 
-    private val tempText: TextView= view.findViewById(R.id.tempText)
-    private val descriptionText: TextView= view.findViewById(R.id.descriptionText)
+    private val tempText: TextView = view.findViewById(R.id.tempText)
+    private val descriptionText: TextView = view.findViewById(R.id.descriptionText)
+    private val dateText: TextView = view.findViewById(R.id.dateText)
+    private val forecastIcon: ImageView = view.findViewById(R.id.currentForecastIcon)
 
     fun bind(dailyForecast: DailyForecast){
-        tempText.text = formatTempForDisplay(dailyForecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
-        descriptionText.text = dailyForecast.description
+        tempText.text = formatTempForDisplay(dailyForecast.temp.max, tempDisplaySettingManager.getTempDisplaySetting())
+        descriptionText.text = dailyForecast.weather[0].description
+        dateText.text = DATE_FORMAT.format(Date(dailyForecast.date * 1000))
+
+        val iconId = dailyForecast.weather[0].icon
+        forecastIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
     }
 }
 

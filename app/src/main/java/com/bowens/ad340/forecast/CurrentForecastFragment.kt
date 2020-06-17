@@ -1,18 +1,16 @@
 package com.bowens.ad340.forecast
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bowens.ad340.*
-import com.bowens.ad340.details.ForecastDetailsFragment
+import com.bowens.ad340.api.CurrentWeather
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
@@ -21,49 +19,53 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class CurrentForecastFragment : Fragment() {
 
     private val forecastRepository = ForecastRepository()
+    private lateinit var locationRepository: LocationRepository
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
-
-        val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
-
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
+        val locationName = view.findViewById<TextView>(R.id.locationName)
+        val tempText= view.findViewById<TextView>(R.id.tempText)
+        val currentForecastIcon = view.findViewById<ImageView>(R.id.currentForecastIcon)
+
+
+        //Zipcode entry
+        val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
+        //Temp Unit Display
+        tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
+
 
         val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)
         locationEntryButton.setOnClickListener {
             showLocationEntry()
         }
 
-        val forecastList: RecyclerView = view.findViewById(R.id.forecastList)
-        forecastList.layoutManager = LinearLayoutManager(requireContext())
-        val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) {forecast ->
-            showForecastDetails(forecast)
+
+        val currentWeatherObserver = Observer<CurrentWeather> { weather ->
+            locationName.text = weather.name
+            tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
         }
-        forecastList.adapter = dailyForecastAdapter
 
+        forecastRepository.currentWeather.observe(viewLifecycleOwner, currentWeatherObserver)
 
-        val weeklyForecastObserver = Observer<List<DailyForecast>>{ forecastItems ->
-            //update the list adapter.
-            dailyForecastAdapter.submitList(forecastItems)
+        locationRepository = LocationRepository(requireContext())
+        val savedLocationObserver = Observer<Location> {savedLocation ->
+            when (savedLocation) {
+                is Location.Zipcode -> forecastRepository.loadCurrentForecast(savedLocation.Zipcode)
+            }
         }
-        forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
+        locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
 
-        forecastRepository.loadForecast(zipcode)
         return view
     }
 
+
     private fun showLocationEntry(){
         val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
-        findNavController().navigate(action)
-    }
-
-    private fun showForecastDetails(forecast: DailyForecast){
-        val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToForecastDetailsFragment(forecast.temp,forecast.description)
         findNavController().navigate(action)
     }
 
