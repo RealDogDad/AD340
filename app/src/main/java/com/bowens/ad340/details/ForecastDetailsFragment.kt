@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.bowens.ad340.R
 import com.bowens.ad340.TempDisplaySettingManager
 import com.bowens.ad340.databinding.FragmentForecastDetailsBinding
 import com.bowens.ad340.formatTempForDisplay
@@ -28,11 +26,6 @@ class ForecastDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentForecastDetailsBinding.inflate(inflater, container, false)
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
-
-
-        val tempText = layout.findViewById<TextView>(R.id.tempText)
-        val descriptionText = layout.findViewById<TextView>(R.id.descriptionText)
-
         binding.tempText.text =
             formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
         binding.descriptionText.text = args.description

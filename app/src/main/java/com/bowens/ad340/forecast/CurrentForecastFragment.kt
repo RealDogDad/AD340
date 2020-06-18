@@ -46,6 +46,7 @@ class CurrentForecastFragment : Fragment() {
 
 
         val currentWeatherObserver = Observer<CurrentWeather> { weather ->
+
             locationName.text = weather.name
             tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
         }
