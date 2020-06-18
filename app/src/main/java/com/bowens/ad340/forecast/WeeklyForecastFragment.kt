@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -35,7 +37,8 @@ class WeeklyForecastFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(fragment_weekly_forecast, container, false)
-
+        val emptyText = view.findViewById<TextView>(R.id.emptyText)
+        val progressbar = view.findViewById<ProgressBar>(R.id.progressBar)
         val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)
         locationEntryButton.setOnClickListener {
            showLocationEntry()
@@ -51,14 +54,21 @@ class WeeklyForecastFragment : Fragment() {
 
         val weeklyForecastObserver = Observer<WeeklyForecast> { WeeklyForecast ->
             //update the list adapter.
+            emptyText.visibility = View.GONE
+            progressbar.visibility = View.GONE
             dailyForecastAdapter.submitList(WeeklyForecast.daily)
+
         }
         forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
 
         locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location> {saveLocation ->
             when (saveLocation) {
-                is Location.Zipcode -> forecastRepository.loadWeeklyForecast(saveLocation.Zipcode)
+                is Location.Zipcode -> {
+                    progressbar.visibility = View.VISIBLE
+                    forecastRepository.loadWeeklyForecast(saveLocation.Zipcode)
+                }
+
             }
         }
         locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
@@ -75,8 +85,7 @@ class WeeklyForecastFragment : Fragment() {
         val description = forecast.weather[0].description
         val date = forecast.date
         val iconId = forecast.weather[0].icon
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp,description,
-            DATE_FORMAT.format(date),iconId)
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp,description, date,iconId)
         findNavController().navigate(action)
     }
 

@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import java.text.SimpleDateFormat
+import java.util.*
 
-private val DATE_FORMAT = SimpleDateFormat("mm-dd-yyy")
+private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyy")
 
 class ForecastDetailsViewModelFactory(private val args: ForecastDetailsFragmentArgs) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -26,7 +27,7 @@ class ForecastDetailsViewModel(args: ForecastDetailsFragmentArgs) : ViewModel() 
         _viewState.value = ForecastDetailsViewState(
             temp = args.temp,
             description = args.description,
-            date = args.date,
+            date = DATE_FORMAT.format(Date(args.date * 1000)),
             iconUrl = "http://openweathermap.org/img/wn/${args.icon}@2x.png"
         )
     }

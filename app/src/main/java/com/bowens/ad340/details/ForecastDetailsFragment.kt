@@ -46,7 +46,7 @@ class ForecastDetailsFragment : Fragment() {
         val viewStateObserver = Observer<ForecastDetailsViewState> { viewState ->
             //update UI
             binding.tempText.text = formatTempForDisplay(viewState.temp, tempDisplaySettingManager.getTempDisplaySetting())
-            binding.descriptionText.text = viewState.description
+            binding.descriptionText.text = viewState.description.toUpperCase()
             binding.dateText.text = viewState.date
             binding.forecastIcon.load(viewState.iconUrl)
         }
