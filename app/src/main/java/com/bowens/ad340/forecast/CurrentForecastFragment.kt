@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -29,6 +30,7 @@ class CurrentForecastFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
         val locationName = view.findViewById<TextView>(R.id.locationName)
         val tempText= view.findViewById<TextView>(R.id.tempText)
+        val icon = view.findViewById<ImageView>(R.id.forecastIcon)
 
 
         //Zipcode entry
@@ -46,6 +48,7 @@ class CurrentForecastFragment : Fragment() {
         val currentWeatherObserver = Observer<CurrentWeather> { weather ->
 
             locationName.text = weather.name
+            val iconId = weather
             tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
 
         }
