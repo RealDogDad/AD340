@@ -5,16 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import coil.api.load
 import com.bowens.ad340.TempDisplaySettingManager
 import com.bowens.ad340.databinding.FragmentForecastDetailsBinding
 import com.bowens.ad340.formatTempForDisplay
+import java.text.SimpleDateFormat
 
+private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
 class ForecastDetailsFragment : Fragment() {
     private val args: ForecastDetailsFragmentArgs by navArgs()
-    private val viewModel = ForecastDetailsViewModel()
+
+    private lateinit var  viewModelFactory: ForecastDetailsViewModelFactory
+    private val viewModel: ForecastDetailsViewModel by viewModels(
+        factoryProducer = { viewModelFactory }
+    )
 
     private var _binding: FragmentForecastDetailsBinding? = null
     // This property only valid between onCreateView and onDestroyView
@@ -28,12 +35,9 @@ class ForecastDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentForecastDetailsBinding.inflate(inflater, container, false)
+        viewModelFactory = ForecastDetailsViewModelFactory(args)
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
-        binding.tempText.text =
-            formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
-        binding.descriptionText.text = args.description
-        val iconId = args.icon
-        binding.forecastIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+
         return binding.root
     }
 
@@ -41,9 +45,12 @@ class ForecastDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewStateObserver = Observer<ForecastDetailsViewState> { viewState ->
             //update UI
+            binding.tempText.text = formatTempForDisplay(viewState.temp, tempDisplaySettingManager.getTempDisplaySetting())
+            binding.descriptionText.text = viewState.description
+            binding.dateText.text = viewState.date
+            binding.forecastIcon.load(viewState.iconUrl)
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
-
     }
 
     override fun onDestroyView() {
