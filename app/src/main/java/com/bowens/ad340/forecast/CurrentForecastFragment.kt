@@ -12,10 +12,12 @@ import androidx.navigation.fragment.findNavController
 import com.bowens.ad340.*
 import com.bowens.ad340.api.CurrentWeather
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.SimpleDateFormat
 
 /**
  * A simple [Fragment] subclass.
  */
+private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
 class CurrentForecastFragment : Fragment() {
 
     private val forecastRepository = ForecastRepository()
@@ -30,7 +32,8 @@ class CurrentForecastFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
         val locationName = view.findViewById<TextView>(R.id.locationName)
         val tempText= view.findViewById<TextView>(R.id.tempText)
-        val currentForecastIcon = view.findViewById<ImageView>(R.id.currentForecastIcon)
+        val icon = view.findViewById<ImageView>(R.id.forecastIcon)
+        val date = view.findViewById<TextView>(R.id.dateText)
 
 
         //Zipcode entry
@@ -46,8 +49,12 @@ class CurrentForecastFragment : Fragment() {
 
 
         val currentWeatherObserver = Observer<CurrentWeather> { weather ->
+
             locationName.text = weather.name
+//            val iconId = weather
+//            val date = DATE_FORMAT
             tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
+
         }
 
         forecastRepository.currentWeather.observe(viewLifecycleOwner, currentWeatherObserver)
