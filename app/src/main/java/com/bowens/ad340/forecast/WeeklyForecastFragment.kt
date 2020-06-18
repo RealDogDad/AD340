@@ -30,8 +30,6 @@ class WeeklyForecastFragment : Fragment() {
     ): View? {
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
-        val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
-
         // Inflate the layout for this fragment
         val view = inflater.inflate(fragment_weekly_forecast, container, false)
 
