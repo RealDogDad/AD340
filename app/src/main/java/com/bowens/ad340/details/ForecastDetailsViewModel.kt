@@ -11,5 +11,6 @@ class ForecastDetailsViewModel : ViewModel() {
 
     fun processArgs(args: ForecastDetailsFragmentArgs) {
         //https://youtu.be/cWEVIOm-ipo?t=2317
+        _viewState = ForecastDetailsViewState(temp = args.temp, description = args.description)
     }
 }
