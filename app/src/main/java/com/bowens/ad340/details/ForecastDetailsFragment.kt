@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import coil.api.load
 import com.bowens.ad340.TempDisplaySettingManager
 import com.bowens.ad340.databinding.FragmentForecastDetailsBinding
 import com.bowens.ad340.formatTempForDisplay
@@ -31,6 +32,8 @@ class ForecastDetailsFragment : Fragment() {
         binding.tempText.text =
             formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
         binding.descriptionText.text = args.description
+        val iconId = args.icon
+        binding.forecastIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
         return binding.root
     }
 

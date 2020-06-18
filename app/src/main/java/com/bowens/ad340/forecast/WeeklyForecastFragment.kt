@@ -14,10 +14,13 @@ import com.bowens.ad340.R.layout.fragment_weekly_forecast
 import com.bowens.ad340.api.DailyForecast
 import com.bowens.ad340.api.WeeklyForecast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.SimpleDateFormat
 
 /**
  * A simple [Fragment] subclass.
  */
+private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
+
 class WeeklyForecastFragment : Fragment() {
 
     private val forecastRepository = ForecastRepository()
@@ -70,7 +73,10 @@ class WeeklyForecastFragment : Fragment() {
     private fun showForecastDetails(forecast: DailyForecast) {
         val temp = forecast.temp.max
         val description = forecast.weather[0].description
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp,description)
+        val date = forecast.date
+        val iconId = forecast.weather[0].icon
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp,description,
+            DATE_FORMAT.format(date),iconId)
         findNavController().navigate(action)
     }
 
