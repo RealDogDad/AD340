@@ -11,4 +11,6 @@
     <string name="bottom_nav_label_weekly">Weekly Forecast</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="emptyTextCurrent">Press the button below to enter your zipcode and see the current weather in your area!</string>
+    <string name="emptyTextWeekly">Press the button below to enter your zipcode and see the weekly forecast in your area!</string>
 </resources>
